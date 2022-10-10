@@ -22,7 +22,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Category</th>
+                    <th scope="col">Slug</th>
                     <th scope="col">Tag</th>
                     <th scope="col">Action</th>
                 </tr>

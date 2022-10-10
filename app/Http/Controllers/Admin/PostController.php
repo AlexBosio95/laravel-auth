@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\posts;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -40,15 +41,19 @@ class PostController extends Controller
         $request->validate([
             'name' => 'required|max:100|min:2',
             'content' => 'required|max:65535|min:2',
-            'slug' => 'required|unique:posts|max:255|min:2',
             'tag' => 'required|max:255|min:2'
 
         ]);
 
         $data = $request->all();
-
         $newPost = new posts();
+
         $newPost->fill($data);
+
+        $slug = $this->getUniqueSlug($newPost->name);
+
+        $newPost->slug = $slug;
+
         $newPost->save();
 
         return redirect()->route('admin.posts.index')->with('create', 'Item created');
@@ -90,13 +95,16 @@ class PostController extends Controller
         $request->validate([
             'name' => 'required|max:100|min:2',
             'content' => 'required|max:65535|min:2',
-            'slug' => 'required|unique:posts|max:255|min:2',
             'tag' => 'required|max:255|min:2'
 
         ]);
 
         $post = posts::findOrFail($id);
         $data = $request->all();
+
+        if ($post->name !== $data['name']) {
+            $data['slug'] = $this->getUniqueSlug($data['name']);
+        }
 
         $post->update($data);
         $post->save();
@@ -116,5 +124,22 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('admin.posts.index', ['post' => $post])->with('status', 'Item deleted');
+    }
+
+    protected function getUniqueSlug($name){
+
+        $slug = Str::slug($name, '-');
+
+        $checkSlug = posts::where('slug', $slug)->first();
+
+        $count = 1;
+
+        while ($checkSlug) {
+            $slug = Str::slug($name, '-' . $count, '-');
+            $count++;
+            $checkSlug = posts::where('slug', $slug)->first();
+        }
+
+        return $slug;
     }
 }

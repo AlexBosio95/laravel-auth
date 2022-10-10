@@ -23,14 +23,6 @@
                 @enderror
             </div>
 
-            <label for="slug" class="form-label">Slug</label>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control @error('slug') is-invalid @enderror" placeholder="slug" name="slug" value="{{old('slug')}}">
-                @error('slug')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
             <label for="tag" class="form-label">Tag</label>
             <div class="input-group mb-3">
                 <input type="text" class="form-control @error('tag') is-invalid @enderror" placeholder="tag" name="tag" value="{{old('tag')}}">
