@@ -42,17 +42,21 @@ class PostController extends Controller
             'name' => 'required|max:100|min:2',
             'content' => 'required|max:65535|min:2',
             'tag' => 'required|max:255|min:2'
-
         ]);
 
         $data = $request->all();
+
+        
         $newPost = new posts();
-
+        
         $newPost->fill($data);
-
+        
+        $tag = $this->tagToHashtag($newPost->tag);
         $slug = $this->getUniqueSlug($newPost->name);
 
+        $newPost->tag = $tag;
         $newPost->slug = $slug;
+
 
         $newPost->save();
 
@@ -106,6 +110,10 @@ class PostController extends Controller
             $data['slug'] = $this->getUniqueSlug($data['name']);
         }
 
+        if ($post->tag !== $data['tag']) {
+            $data['tag'] = $this->tagToHashtag($data['tag']);
+        }
+
         $post->update($data);
         $post->save();
 
@@ -141,5 +149,18 @@ class PostController extends Controller
         }
 
         return $slug;
+    }
+
+    protected function tagToHashtag($currentTag){
+
+        $mytag = explode(' ', $currentTag);
+        $arrayTag = [];
+
+        foreach ($mytag as $value) {
+            $arrayTag[] = Str::start($value, '#');
+        };
+
+        return implode(' ', $arrayTag);
+
     }
 }

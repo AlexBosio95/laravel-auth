@@ -6,14 +6,16 @@
 
         <a class="btn btn-primary my-4" href="{{route('admin.posts.index')}}">< Back</a>
 
+        <h2 class="text-center">{{$data->name}}</h2>
+
         <div class="card">
             <div class="card-header">
-                {{$data->name}}
+                {{$data->slug}}
             </div>
             <div class="card-body">
                 <p class="card-text">{{$data->content}}</p>
                 <div class="card-footer text-muted">
-                    {{$data->slug}} / {{$data->tag}}
+                    {{$data->tag}}
                 </div>
                 
             </div>
