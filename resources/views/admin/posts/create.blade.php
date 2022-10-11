@@ -25,7 +25,7 @@
 
             <label for="tag" class="form-label">Tag</label>
             <div class="input-group mb-3">
-                <input type="text" class="form-control @error('tag') is-invalid @enderror" placeholder="tag" name="tag" value="{{old('tag')}}">
+                <input type="text" class="form-control @error('tag') is-invalid @enderror" placeholder="enter the words separated by spaces" name="tag" value="{{old('tag')}}">
                 @error('tag')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror

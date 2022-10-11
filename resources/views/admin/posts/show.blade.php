@@ -17,7 +17,6 @@
                 <div class="card-footer text-muted">
                     {{$data->tag}}
                 </div>
-                
             </div>
         </div>    
     </div>
